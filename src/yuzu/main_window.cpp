@@ -1299,6 +1299,7 @@ void MainWindow::InitializeHotkeys() {
     hotkey_registry.LoadHotkeys();
 
     LinkActionShortcut(ui->action_Load_File, QStringLiteral("Load File"));
+    LinkActionShortcut(ui->action_Log_Folder, QStringLiteral("Open Log Folder"));
     LinkActionShortcut(ui->action_Exit, QStringLiteral("Exit Eglantine"));
     LinkActionShortcut(ui->action_Restart, QStringLiteral("Restart Emulation"));
     LinkActionShortcut(ui->action_Pause, QStringLiteral("Continue/Pause Emulation"));
@@ -1637,6 +1638,10 @@ void MainWindow::ConnectMenuEvents() {
     connect_menu(ui->action_SDMC_Folder, &MainWindow::OnOpenSDMCFolder);
     connect_menu(ui->action_Mod_Folder, &MainWindow::OnOpenModFolder);
     connect_menu(ui->action_Log_Folder, &MainWindow::OnOpenLogFolder);
+    connect_menu(ui->action_Log_File, &MainWindow::OnOpenLogFile);
+    connect_menu(ui->action_Shader_Cache_Folder, &MainWindow::OnOpenShaderCacheFolder);
+    connect_menu(ui->action_Screenshots_Folder, &MainWindow::OnOpenScreenshotsFolder);
+    connect_menu(ui->action_Config_Folder, &MainWindow::OnOpenConfigFolder);
 
     connect_menu(ui->action_Verify_installed_contents, &MainWindow::OnVerifyInstalledContents);
     connect_menu(ui->action_Firmware_From_Folder, &MainWindow::OnInstallFirmware);
@@ -3999,6 +4004,22 @@ void MainWindow::OnOpenModFolder() {
 
 void MainWindow::OnOpenLogFolder() {
     QtCommon::Game::OpenLogFolder();
+}
+
+void MainWindow::OnOpenLogFile() {
+    QtCommon::Game::OpenLogFile();
+}
+
+void MainWindow::OnOpenShaderCacheFolder() {
+    QtCommon::Game::OpenShaderCacheFolder();
+}
+
+void MainWindow::OnOpenScreenshotsFolder() {
+    QtCommon::Game::OpenScreenshotsFolder();
+}
+
+void MainWindow::OnOpenConfigFolder() {
+    QtCommon::Game::OpenConfigFolder();
 }
 
 void MainWindow::OnVerifyInstalledContents() {

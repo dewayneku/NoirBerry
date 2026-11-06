@@ -193,18 +193,38 @@ void ConfigurePerGameAddons::InstallModFolder() {
 }
 
 void ConfigurePerGameAddons::InstallModZip() {
-    // TODO(crueter): use GetOpenFileName to allow select multiple ZIPs
-    const auto path = QtCommon::Frontend::GetOpenFileName(
+    const auto paths = QtCommon::Frontend::GetOpenFileNames(
         tr("Zipped Mod Location"),
         QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
         tr("Zipped Archives (*.zip)"));
-    if (path.isEmpty()) {
+    if (paths.isEmpty()) {
         return;
     }
 
-    const QString extracted = QtCommon::Mod::ExtractMod(path);
-    if (!extracted.isEmpty())
-        InstallModPath(extracted, QFileInfo(path).baseName());
+    // Archives holding a single mod are installed together, with one result message;
+    // archives holding several still get their own selection dialog.
+    QStringList single_mods;
+    int slot = 0;
+    for (const auto& path : paths) {
+        const QString extracted = QtCommon::Mod::ExtractMod(path, slot++);
+        if (extracted.isEmpty()) {
+            continue;
+        }
+
+        const auto mods = QtCommon::Mod::GetModFolders(extracted, QFileInfo(path).baseName());
+        if (mods.size() > 1) {
+            ModSelectDialog* dialog = new ModSelectDialog(mods, this);
+            connect(dialog, &ModSelectDialog::modsSelected, this,
+                    &ConfigurePerGameAddons::InstallMods);
+            dialog->show();
+        } else {
+            single_mods << mods;
+        }
+    }
+
+    if (!single_mods.empty()) {
+        InstallMods(single_mods);
+    }
 }
 
 void ConfigurePerGameAddons::AddonDeleteRequested(QList<QModelIndex> selected) {

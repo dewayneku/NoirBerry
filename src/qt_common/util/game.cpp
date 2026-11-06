@@ -4,6 +4,7 @@
 #include "qt_common/util/game.h"
 
 #include "common/fs/fs.h"
+#include "common/fs/fs_paths.h"
 #include "common/fs/path_util.h"
 #include "core/file_sys/savedata_factory.h"
 #include "core/hle/service/am/am_types.h"
@@ -185,6 +186,27 @@ void OpenModFolder() {
 
 void OpenLogFolder() {
     OpenEdenFolder(Common::FS::EdenPath::LogDir);
+}
+
+void OpenLogFile() {
+    const auto log_file = Common::FS::GetEdenPath(Common::FS::EdenPath::LogDir) / LOG_FILE;
+    if (!std::filesystem::is_regular_file(log_file)) {
+        OpenLogFolder();
+        return;
+    }
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(log_file.string())));
+}
+
+void OpenShaderCacheFolder() {
+    OpenEdenFolder(Common::FS::EdenPath::ShaderDir);
+}
+
+void OpenScreenshotsFolder() {
+    OpenEdenFolder(Common::FS::EdenPath::ScreenshotsDir);
+}
+
+void OpenConfigFolder() {
+    OpenEdenFolder(Common::FS::EdenPath::ConfigDir);
 }
 
 static QString GetGameListErrorRemoving(QtCommon::Game::InstalledEntryType type) {
@@ -458,6 +480,10 @@ void CreateShortcut(const std::string& game_path, const u64 program_id,
 
     QImage icon_data =
         QImage::fromData(icon_image_file.data(), static_cast<int>(icon_image_file.size()));
+    if (icon_data.isNull()) {
+        // System applets such as the Home Menu have no icon of their own.
+        icon_data = QImage(QStringLiteral(":/icons/default/256x256/noirberry.png"));
+    }
     std::filesystem::path out_icon_path;
     if (QtCommon::Game::MakeShortcutIcoPath(program_id, game_title, out_icon_path)) {
         if (!SaveIconToFile(out_icon_path, icon_data)) {
@@ -486,7 +512,7 @@ void CreateShortcut(const std::string& game_path, const u64 program_id,
     if (CreateShortcutMessagesGUI(ShortcutMessages::Fullscreen, qgame_title)) {
         arguments = "-f " + arguments;
     }
-    const std::string comment = fmt::format("Start {:s} with the Eden Emulator", game_title);
+    const std::string comment = fmt::format("Start {:s} with NoirBerry", game_title);
     const std::string categories = "Game;Emulator;Qt;";
     const std::string keywords = "Switch;Nintendo;";
 
@@ -534,7 +560,6 @@ void CreateHomeMenuShortcut(ShortcutTarget target) {
     auto qlaunch_applet_nca = bis_system->GetEntry(QLaunchId, FileSys::ContentRecordType::Program);
     const auto game_path = qlaunch_applet_nca->GetFullPath();
 
-    // TODO(crueter): Make this use the Eden icon
     CreateShortcut(game_path, QLaunchId, "Switch Home Menu", target, "-qlaunch", false);
 }
 
@@ -563,7 +588,8 @@ bool SaveIconToFile(const std::filesystem::path& icon_path, const QImage& image)
     };
 #pragma pack(pop)
 
-    const QImage source_image = image.convertToFormat(QImage::Format_RGB32);
+    // ARGB32 keeps transparency, so rounded icons get no black corners.
+    const QImage source_image = image.convertToFormat(QImage::Format_ARGB32);
     constexpr std::array<int, 7> scale_sizes{256, 128, 64, 48, 32, 24, 16};
     constexpr int bytes_per_pixel = 4;
 

@@ -9,6 +9,7 @@ namespace QtCommon::Mod {
 
 QStringList GetModFolders(const QString& root, const QString& fallbackName);
 
-const QString ExtractMod(const QString& path);
+// Extracts into its own temp subfolder so several archives can be pending at once.
+const QString ExtractMod(const QString& path, int slot = 0);
 
 } // namespace QtCommon::Mod

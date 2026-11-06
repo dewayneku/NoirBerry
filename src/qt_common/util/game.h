@@ -46,6 +46,10 @@ void OpenSaveFolder();
 void OpenSDMCFolder();
 void OpenModFolder();
 void OpenLogFolder();
+void OpenLogFile();
+void OpenShaderCacheFolder();
+void OpenScreenshotsFolder();
+void OpenConfigFolder();
 
 void RemoveBaseContent(u64 program_id, InstalledEntryType type);
 void RemoveUpdateContent(u64 program_id, InstalledEntryType type);

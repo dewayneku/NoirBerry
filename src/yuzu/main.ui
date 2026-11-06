@@ -66,6 +66,11 @@
      <addaction name="action_SDMC_Folder"/>
      <addaction name="action_Mod_Folder"/>
      <addaction name="action_Log_Folder"/>
+     <addaction name="action_Log_File"/>
+     <addaction name="separator"/>
+     <addaction name="action_Shader_Cache_Folder"/>
+     <addaction name="action_Screenshots_Folder"/>
+     <addaction name="action_Config_Folder"/>
     </widget>
     <addaction name="action_Install_File_NAND"/>
     <addaction name="separator"/>
@@ -541,6 +546,26 @@
   <action name="action_Log_Folder">
    <property name="text">
     <string>&amp;Log Folder</string>
+   </property>
+  </action>
+  <action name="action_Log_File">
+   <property name="text">
+    <string>Current Log &amp;File</string>
+   </property>
+  </action>
+  <action name="action_Shader_Cache_Folder">
+   <property name="text">
+    <string>S&amp;hader Cache Folder</string>
+   </property>
+  </action>
+  <action name="action_Screenshots_Folder">
+   <property name="text">
+    <string>Scr&amp;eenshots Folder</string>
+   </property>
+  </action>
+  <action name="action_Config_Folder">
+   <property name="text">
+    <string>&amp;Config Folder</string>
    </property>
   </action>
   <action name="action_Firmware_From_Folder">

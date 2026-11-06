@@ -118,9 +118,9 @@ QStringList GetModFolders(const QString& root, const QString& fallbackName) {
 }
 
 // TODO(crueter): Make this a common extract_to_tmp func
-const QString ExtractMod(const QString& path) {
+const QString ExtractMod(const QString& path, int slot) {
     namespace fs = std::filesystem;
-    fs::path tmp{fs::temp_directory_path() / "eden" / "unzip_mod"};
+    fs::path tmp{fs::temp_directory_path() / "eden" / "unzip_mod" / std::to_string(slot)};
     std::error_code ec;
     fs::remove_all(tmp, ec);
     if (!fs::create_directories(tmp, ec)) {
