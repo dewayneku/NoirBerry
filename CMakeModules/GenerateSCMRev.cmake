@@ -37,15 +37,15 @@ set(GIT_DESC ${BUILD_VERSION})
 
 # Generate cpp with Git revision from template
 
-set(BUILD_AUTO_UPDATE_STABLE_REPO "zortos293/Lichii")
+set(BUILD_AUTO_UPDATE_STABLE_REPO "dewayneku/NoirBerry")
 set(BUILD_AUTO_UPDATE_STABLE_API "api.github.com")
-set(BUILD_AUTO_UPDATE_API_PATH "/repos/zortos293/Lichii/releases?per_page=100")
+set(BUILD_AUTO_UPDATE_API_PATH "/repos/dewayneku/NoirBerry/releases?per_page=100")
 set(BUILD_AUTO_UPDATE_WEBSITE "https://github.com")
-set(BUILD_AUTO_UPDATE_REPO "zortos293/Lichii")
+set(BUILD_AUTO_UPDATE_REPO "dewayneku/NoirBerry")
 if (NIGHTLY_BUILD)
-    set(REPO_NAME "Lichii Nightly")
+    set(REPO_NAME "NoirBerry Nightly")
 else()
-    set(REPO_NAME "Lichii")
+    set(REPO_NAME "NoirBerry")
 endif()
 
 set(BUILD_ID ${GIT_REFSPEC})
