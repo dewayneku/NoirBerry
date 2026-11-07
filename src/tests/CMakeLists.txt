@@ -9,7 +9,6 @@ add_executable(tests
     video_core/buffer_cache_ports.cpp
     video_core/unswizzle_workers.cpp
     video_core/aftermath_dump.cpp
-    video_core/frame_dump_schedule.cpp
     video_core/gpu_timestamp.cpp
     core/nx2_streamplay.cpp
     core/nx2_video_ready.cpp
@@ -40,8 +39,10 @@ add_executable(tests
     video_core/storage_buffer_control_flow.cpp
     core/nup_validation.cpp
     input_common/calibration_lifetime.cpp
+    input_common/tas_input.cpp
     video_core/ampere_logged_numeric.cpp
     video_core/ampere_logged_textures.cpp
+    video_core/oot_visual_workaround.cpp
     video_core/native_texture_header_index.cpp
     video_core/texture_handles.cpp
     video_core/ampere_selevet_modes.cpp
@@ -134,6 +135,7 @@ add_executable(tests
     video_core/ampere_bindless_surfaces.cpp
     video_core/native_macro_fifo.cpp
     video_core/uniform_stream_reuse.cpp
+    video_core/usage_tracker.cpp
     video_core/shader_invalidation.cpp
     video_core/descriptor_table.cpp
     video_core/global_address_tracking.cpp
