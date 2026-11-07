@@ -404,9 +404,6 @@ void RasterizerVulkan::PrepareDraw(bool is_indexed, Func&& draw_func, bool is_in
         }
     };
     namespace Profile = VideoCommon::Nx2Profile;
-    if (InvalidateBeforeUse()) {
-        gpu.InvalidateGPUCache();
-    }
     {
         Profile::Scope scope{Profile::Zone::FlushWork};
         FlushWork();
@@ -1372,9 +1369,6 @@ void RasterizerVulkan::Clear(u32 layer_count) {
 
 void RasterizerVulkan::DispatchCompute() {
     VideoCommon::Nx2Profile::Scope profile_scope{VideoCommon::Nx2Profile::Zone::Compute};
-    if (InvalidateBeforeUse()) {
-        gpu.InvalidateGPUCache();
-    }
     FlushWork();
     gpu_memory->FlushCaching();
     if (frame_dump.Capturing()) {
